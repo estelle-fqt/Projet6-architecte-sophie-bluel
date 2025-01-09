@@ -173,6 +173,13 @@ nav li {
   padding: 0 10px;
   font-size: 1.2em;
 }
+nav a {
+  text-decoration: none; /* ajout style */
+  color: black;
+}
+nav a:hover {
+  color: #b1663c;
+}
 
 li:hover {
   color: #b1663c;
