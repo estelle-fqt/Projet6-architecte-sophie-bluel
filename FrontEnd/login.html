@@ -28,18 +28,20 @@
     </header>
     <main>
       <h2>Log In</h2>
-      <section class="identifier">
-        <div class="id">
-          <p class="p-email">E-mail</p>
-          <input type="text" />
-        </div>
-        <div class="password">
-          <p class="p-password">Mot de passe</p>
-          <input type="text" />
-        </div>
-      </section>
-      <button class="connection-btn">Se connecter</button>
-      <p class="p-forgot-password">Mot de passe oublié</p>
+      <form action="" method="post">
+        <section class="identifier">
+          <div class="id">
+            <label for="email" class="p-email">E-mail</label>
+            <input type="email" id="email" name="email" />
+          </div>
+          <div class="password">
+            <label for="password" class="p-password">Mot de passe</label>
+            <input type="password" id="password" name="password" />
+          </div>
+        </section>
+        <button type="submit" class="connection-btn">Se connecter</button>
+        <p class="p-forgot-password">Mot de passe oublié</p>
+      </form>
     </main>
     <footer id="footer">
       <nav>
