@@ -129,15 +129,16 @@ table {
 }
 /** end reset css**/
 body {
-  max-width: 1140px;
-  margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
+  background-color: #fffef8;
 }
 header {
   display: flex;
   justify-content: space-between;
-  margin: 50px 0;
+  max-width: 1140px;
+  margin: auto;
+  margin: 50px;
 }
 section {
   margin: 50px 0;
@@ -155,7 +156,10 @@ h1 {
 h1 > span {
   font-family: "Work Sans";
   font-size: 10px;
-  letter-spacing: 0.1em;
+  font-weight: 400;
+  letter-spacing: 0.45px;
+  margin-top: 10px;
+  width: 138px;
 }
 
 h2 {
@@ -168,6 +172,7 @@ nav ul {
   display: flex;
   align-items: center;
   list-style-type: none;
+  margin: 20px;
 }
 nav li {
   padding: 0 10px;
@@ -187,14 +192,18 @@ li:hover {
 #introduction {
   display: flex;
   align-items: center;
+  gap: 72px;
+  width: 75%;
+  margin: auto;
+  margin-top: 150px;
 }
 #introduction figure {
   flex: 1;
 }
 #introduction img {
   display: block;
-  margin: auto;
-  width: 80%;
+  width: 474px;
+  height: 355px;
 }
 
 #introduction article {
@@ -206,6 +215,13 @@ li:hover {
 
 #introduction p {
   margin-bottom: 0.5em;
+}
+
+#portfolio {
+  width: 75%;
+  margin: auto;
+  margin-top: 150px;
+  margin-bottom: 80px;
 }
 #portfolio h2 {
   text-align: center;
@@ -295,8 +311,11 @@ input[type="submit"] {
   border-radius: 60px;
 }
 
-footer nav ul {
+footer {
+  height: 60px;
+  background-color: white;
+  align-items: center;
   display: flex;
-  justify-content: flex-end;
-  margin: 2em;
+  flex-direction: row-reverse;
+  margin-right: 2em;
 }

@@ -78,6 +78,7 @@ showWorks();
 
 // Gestion de la connexion
 const formConnection = document.querySelector(".form-connection");
+const login = document.querySelector(".login");
 formConnection.addEventListener("submit", function (event) {
   event.preventDefault(); // Empêche le rechargement de la page (cptm /defaut du nav)
 
@@ -112,7 +113,8 @@ formConnection.addEventListener("submit", function (event) {
       const token = data.token;
       if (token) {
         sessionStorage.setItem("authToken", token); // Stocke le token pour les futures requêtes
-        window.location.href = "index.html"; // Redirige vers la page d'accueil
+        window.location.href = "homepage-edit.html"; // Redirige vers la page d'accueil edit
+        login.innerText = "logout"; // Modif du login en logout
       }
     })
     .catch((error) => {
