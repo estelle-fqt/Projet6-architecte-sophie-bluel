@@ -1,3 +1,5 @@
+console.log("Le script est bien chargé");
+
 // Afficher les projets dans la galerie
 // récupère éléments Works dans API avec fetch
 async function showWorks() {
@@ -21,7 +23,7 @@ function showProjects(works) {
   works.forEach((work) => {
     // crée un élément <figure>
     const figure = document.createElement("figure");
-    // crée un élément <ig>
+    // crée un élément <img>
     const img = document.createElement("img");
     img.src = work.imageUrl; // prend l'url de l'img du projet
     img.alt = work.title;
@@ -64,7 +66,7 @@ async function showCategories(works) {
     categoryButton.textContent = category.name;
     filtersButtons.appendChild(categoryButton);
 
-    // Ecoute événement pour afficher les projets de cette catégorie
+    // Ecoute événement pour afficher les projets de chaque catégorie avc fct filter
     categoryButton.addEventListener("click", () => {
       const filteredWorks = works.filter(
         (work) => work.categoryId === category.id
@@ -74,50 +76,32 @@ async function showCategories(works) {
   });
 }
 
-showWorks();
+// Afficher le mode édition si connecté
+window.addEventListener("load", () => {
+  const modeEdits = document.querySelector(".mode-edit");
+  const btnEdits = document.querySelector(".btn-edit");
+  const login = document.querySelector(".login");
+  const token = sessionStorage.getItem("authToken"); // récupère le token
 
-// Gestion de la connexion
-const formConnection = document.querySelector(".form-connection");
-const login = document.querySelector(".login");
-formConnection.addEventListener("submit", function (event) {
-  event.preventDefault(); // Empêche le rechargement de la page (cptm /defaut du nav)
+  if (token) {
+    console.log("Utilisateur connecté");
+    if (modeEdits) {
+      modeEdits.classList.remove("hidden");
+    }
+    if (btnEdits) {
+      btnEdits.classList.remove("hidden");
+    }
+    if (login) {
+      login.textContent = "logout";
+      login.addEventListener("click", () => {
+        sessionStorage.removeItem("authToken");
+        window.location.reload();
+      });
+    }
+  } else {
+    console.log("Utilisateur non connecté");
+  }
 
-  // Récupération des valeurs du formulaire
-  const email = document.querySelector("#email").value;
-  const password = document.querySelector("#password").value;
-
-  // Création de l'objet à envoyer = charge utile
-  const connection = { email, password };
-
-  // Conversion l'objt de charge utile en JSON
-  const chargeUtile = JSON.stringify(connection);
-
-  // Appel de l'API avec fetch (2 arguments : url & obj de config)
-  fetch("http://localhost:5678/api/users/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json", // Indique que le corps est en JSON
-    },
-    body: chargeUtile,
-  })
-    // Gestion de la réponse
-    .then((response) => {
-      console.log("Statut de la réponse:", response.status);
-      if (!response.ok) {
-        throw new Error("Échec de la connexion. Vérifiez vos identifiants.");
-      }
-      return response.json(); // Traite la réponse JSON si la requête réussit
-    })
-    .then((data) => {
-      console.log("Connexion réussie :", data);
-      const token = data.token;
-      if (token) {
-        sessionStorage.setItem("authToken", token); // Stocke le token pour les futures requêtes
-        window.location.href = "homepage-edit.html"; // Redirige vers la page d'accueil edit
-        login.innerText = "logout"; // Modif du login en logout
-      }
-    })
-    .catch((error) => {
-      console.error("Erreur :", error.message); // Affiche une erreur en cas d'échec
-    });
+  // Charger les projets
+  showWorks();
 });

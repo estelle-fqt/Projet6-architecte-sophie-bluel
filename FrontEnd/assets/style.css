@@ -133,6 +133,28 @@ body {
   font-size: 14px;
   background-color: #fffef8;
 }
+
+.mode-edit {
+  border: solid;
+  height: 59px;
+  background-color: black;
+  color: white;
+  font-weight: 400;
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.hidden {
+  display: none;
+}
+
+.mode-edit i {
+  color: white;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -195,7 +217,7 @@ li:hover {
   gap: 72px;
   width: 75%;
   margin: auto;
-  margin-top: 150px;
+  margin-top: 100px;
 }
 #introduction figure {
   flex: 1;
@@ -217,6 +239,25 @@ li:hover {
   margin-bottom: 0.5em;
 }
 
+.h2-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+.btn-edit {
+  background-color: #fffef8;
+  border: none;
+  cursor: pointer;
+}
+.btn-edit i {
+  color: black;
+  margin-right: 5px;
+  width: 15.58px;
+  height: 15.58px;
+}
+
 #portfolio {
   width: 75%;
   margin: auto;
@@ -225,7 +266,6 @@ li:hover {
 }
 #portfolio h2 {
   text-align: center;
-  margin-bottom: 1em;
 }
 
 /* ajout filtres */
