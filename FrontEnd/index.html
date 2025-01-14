@@ -60,10 +60,32 @@
       <section id="portfolio">
         <div class="h2-btn">
           <h2>Mes Projets</h2>
+          <!-- Contenu mode édition géré par JavaScript-->
           <button class="btn-edit hidden">
             <i class="fa-regular fa-pen-to-square"></i>
-            modifier
+            <a href="#modal1" class="js-modal">modifier</a>
           </button>
+          <!-- Modale -->
+          <aside
+            id="modal1"
+            class="modal hidden-modal"
+            aria-hidden="true"
+            role="dialog"
+          >
+            <div class="modal-wrapper">
+              <button class="close-modal">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </button>
+              <div class="content-modal">
+                <h3 class="title-modal">Galerie Photo</h3>
+                <div class="gallery-modal">
+                  <!-- Contenu généré par JavaScript -->
+                </div>
+                <div class="separation"></div>
+                <button class="add-photo">Ajouter une photo</button>
+              </div>
+            </div>
+          </aside>
         </div>
         <div class="filters">
           <!-- Contenu généré par JavaScript -->

@@ -1,5 +1,6 @@
 // Gestion de la connexion
 const formConnection = document.querySelector(".form-connection");
+const errorMessage = document.querySelector(".error-connection");
 
 formConnection.addEventListener("submit", function (event) {
   event.preventDefault(); // Empêche le rechargement de la page (cptm /defaut du nav)
@@ -26,7 +27,11 @@ formConnection.addEventListener("submit", function (event) {
     .then((response) => {
       console.log("Statut de la réponse:", response.status);
       if (!response.ok) {
-        throw new Error("Échec de la connexion. Vérifiez vos identifiants.");
+        if (response.status === 401) {
+          throw new Error("Erreur dans l'identifiant ou le mot de passe.");
+        } else {
+          throw new Error("Erreur serveur. Veillez réessayer plus tard.");
+        }
       }
       return response.json(); // Traite la réponse JSON si la requête réussit
     })
@@ -40,5 +45,7 @@ formConnection.addEventListener("submit", function (event) {
     })
     .catch((error) => {
       console.error("Erreur :", error.message); // Affiche une erreur en cas d'échec
+      errorMessage.textContent = error.message;
+      errorMessage.style.display = "block";
     });
 });

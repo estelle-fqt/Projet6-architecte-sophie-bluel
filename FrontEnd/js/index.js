@@ -8,8 +8,8 @@ async function showWorks() {
   console.log(works);
 
   showProjects(works);
-
   showCategories(works);
+  showGalleryModal(works);
 }
 
 // récupère l'élément <gallery>
@@ -19,6 +19,7 @@ const gallery = document.querySelector(".gallery");
 function showProjects(works) {
   // vide la gallery
   gallery.innerHTML = "";
+
   //parcour chaque projets
   works.forEach((work) => {
     // crée un élément <figure>
@@ -27,15 +28,13 @@ function showProjects(works) {
     const img = document.createElement("img");
     img.src = work.imageUrl; // prend l'url de l'img du projet
     img.alt = work.title;
+    figure.appendChild(img);
     // crée un élément <figcaption>
     const figcaption = document.createElement("figcaption");
     figcaption.textContent = work.title;
-
-    // ajoute <img> et <figcaption> à <figure>
-    figure.appendChild(img);
     figure.appendChild(figcaption);
 
-    // ajoute <figure> à la galerie
+    // ajoute conteneur à la galerie
     gallery.appendChild(figure);
   });
 }
@@ -105,3 +104,74 @@ window.addEventListener("load", () => {
   // Charger les projets
   showWorks();
 });
+
+// Gérer la modale
+// fct pour ouvrir la modale
+const openModal = function (e) {
+  e.preventDefault();
+  const target = document.getElementById("modal1");
+  target.classList.remove("hidden-modal");
+  target.removeAttribute("aria-hidden");
+  target.setAttribute("aria-modal", "true");
+
+  //showGalleryModal(works);
+};
+
+// ouvre la modale en cliquant sur le bouton
+document.querySelectorAll(".js-modal").forEach((a) => {
+  a.addEventListener("click", openModal); // appel la focntion openModal
+});
+
+// fct pour fermer la modale
+const closeModal = function () {
+  const target = document.getElementById("modal1");
+  target.classList.add("hidden-modal");
+  target.setAttribute("aria-hidden", "true");
+  target.removeAttribute("aria-modal");
+};
+
+const modal = document.getElementById("modal1");
+const modalContent = document.querySelector(".modal-wrapper");
+
+// ferme la modale en cliquant sur le bouton
+document.querySelector(".close-modal").addEventListener("click", closeModal);
+// ferme la modale en cliquant en dehors
+modal.addEventListener("click", function (e) {
+  if (!modalContent.contains(e.target)) {
+    closeModal();
+  }
+});
+
+// fct affiche gallerie modale
+
+function showGalleryModal(works) {
+  const galleryModal = document.querySelector(".gallery-modal");
+
+  // vider la galerie modale
+  galleryModal.innerHTML = "";
+
+  works.forEach((work) => {
+    const figure = document.createElement("figure");
+    figure.style.position = "relative";
+
+    const img = document.createElement("img");
+    img.src = work.imageUrl; // prend l'url de l'img du projet
+    img.alt = work.title;
+    figure.appendChild(img);
+
+    const deleteIcon = document.createElement("i");
+    deleteIcon.classList.add("fas", "fa-trash-alt");
+    deleteIcon.style.position = "absolute";
+    deleteIcon.style.top = "5px";
+    deleteIcon.style.right = "5px";
+    deleteIcon.style.color = "white";
+    deleteIcon.style.backgroundColor = "black";
+    deleteIcon.style.padding = "3px";
+    deleteIcon.style.borderRadius = "2px";
+    deleteIcon.style.cursor = "pointer";
+    figure.appendChild(deleteIcon);
+
+    galleryModal.appendChild(figure);
+  });
+}
+console.log(showGalleryModal);
