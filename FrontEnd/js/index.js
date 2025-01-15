@@ -105,37 +105,37 @@ window.addEventListener("load", () => {
   showWorks();
 });
 
-// Gérer la modale
+//********* MODALE 1 ***********//
 // fct pour ouvrir la modale
-const openModal = function (e) {
+const openModal1 = function (e) {
   e.preventDefault();
-  const target = document.getElementById("modal1");
-  target.classList.remove("hidden-modal");
-  target.removeAttribute("aria-hidden");
-  target.setAttribute("aria-modal", "true");
+  const modal1 = document.getElementById("modal1");
+  modal1.classList.remove("hidden-modal");
+  modal1.removeAttribute("aria-hidden");
+  modal1.setAttribute("aria-modal", "true");
 
   //showGalleryModal(works);
 };
 
 // ouvre la modale en cliquant sur le bouton
 document.querySelectorAll(".js-modal").forEach((a) => {
-  a.addEventListener("click", openModal); // appel la focntion openModal
+  a.addEventListener("click", openModal1); // appel la focntion openModal
 });
 
 // fct pour fermer la modale
 const closeModal = function () {
-  const target = document.getElementById("modal1");
-  target.classList.add("hidden-modal");
-  target.setAttribute("aria-hidden", "true");
-  target.removeAttribute("aria-modal");
+  const modal1 = document.getElementById("modal1");
+  modal1.classList.add("hidden-modal");
+  modal1.setAttribute("aria-hidden", "true");
+  modal1.removeAttribute("aria-modal");
 };
 
+// ferme la modale1 en cliquant sur le bouton
+document.querySelector(".close-modal").addEventListener("click", closeModal);
+// ferme la modale en cliquant en dehors
 const modal = document.getElementById("modal1");
 const modalContent = document.querySelector(".modal-wrapper");
 
-// ferme la modale en cliquant sur le bouton
-document.querySelector(".close-modal").addEventListener("click", closeModal);
-// ferme la modale en cliquant en dehors
 modal.addEventListener("click", function (e) {
   if (!modalContent.contains(e.target)) {
     closeModal();
@@ -175,3 +175,55 @@ function showGalleryModal(works) {
   });
 }
 console.log(showGalleryModal);
+
+//******** MODALE 2 ***********//
+// fct pour ouvrir la modale
+const openModal2 = function (e) {
+  e.preventDefault();
+  const modal1 = document.getElementById("modal1");
+  const modal2 = document.getElementById("modal2");
+
+  // ferme la 1er modale
+  modal1.classList.add("hidden-modal");
+  modal1.setAttribute("aria-hidden", "true");
+
+  // ouvre la seconde modale
+  modal2.classList.remove("hidden-modal");
+  modal2.removeAttribute("aria-hidden");
+  modal2.setAttribute("aria-modal", "true");
+};
+
+// ouvrir la modale 2
+document.querySelector(".add-photo").addEventListener("click", openModal2);
+
+// fct pour fermer la modale 2
+const closeModal2 = function () {
+  const modal2 = document.getElementById("modal2");
+  modal2.classList.add("hidden-modal");
+  modal2.setAttribute("aria-hidden", "true");
+  modal2.removeAttribute("aria-modal");
+};
+// ferme la modale 2 en cliquant sur le bouton
+document.querySelector(".close-modal2").addEventListener("click", closeModal2);
+// ferme la modale 2 en cliquant dehors
+const modal2 = document.getElementById("modal2");
+const modalContent2 = document.querySelector(".modal-wrapper2");
+
+modal2.addEventListener("click", function (e) {
+  if (!modalContent2.contains(e.target)) {
+    closeModal2();
+  }
+});
+
+// fct retour à modal 1
+const returnModal1 = function () {
+  const modal2 = document.getElementById("modal2");
+  modal2.classList.add("hidden-modal");
+  const modal1 = document.getElementById("modal1");
+  modal.classList.remove("hidden-modal");
+  openModal1();
+};
+// retour à modale 1
+document
+  .querySelector(".btn-back-modal")
+  .addEventListener("click", returnModal1);

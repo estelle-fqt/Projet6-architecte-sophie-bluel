@@ -65,7 +65,7 @@
             <i class="fa-regular fa-pen-to-square"></i>
             <a href="#modal1" class="js-modal">modifier</a>
           </button>
-          <!-- Modale -->
+          <!-- Modale 1 -->
           <aside
             id="modal1"
             class="modal hidden-modal"
@@ -74,7 +74,7 @@
           >
             <div class="modal-wrapper">
               <button class="close-modal">
-                <i class="fa fa-times" aria-hidden="true"></i>
+                <i class="fa fa-times"></i>
               </button>
               <div class="content-modal">
                 <h3 class="title-modal">Galerie Photo</h3>
@@ -83,6 +83,48 @@
                 </div>
                 <div class="separation"></div>
                 <button class="add-photo">Ajouter une photo</button>
+              </div>
+            </div>
+          </aside>
+          <!-- Modale 2 -->
+          <aside
+            id="modal2"
+            class="modal hidden-modal"
+            aria-hidden="true"
+            role="dialog"
+          >
+            <div class="modal-wrapper modal-wrapper2">
+              <button class="btn-back-modal">
+                <i class="fa fa-arrow-left"></i>
+              </button>
+              <button class="close-modal close-modal2">
+                <i class="fa fa-times"></i>
+              </button>
+              <div class="content-modal">
+                <h3 class="title-modal">Ajout photo</h3>
+                <form action="" method="post" class="form-upload-img">
+                  <div class="content-upload-img">
+                    <i class="fa-solid fa-image"></i>
+                    <button class="btn-upload-img">+ Ajouter photo</button>
+                    <p>jpg, png : 4mo max</p>
+                  </div>
+                  <div class="inputs-upload-img">
+                    <label for="title">Titre </label>
+                    <input type="text" name="title" />
+                    <label for="category" id="category">Catégorie </label>
+                    <!--<input type="text" name="category" />-->
+                    <select name="category" id="category">
+                      <option value=""></option>
+                      <option value="objets">Objets</option>
+                      <option value="appartements">Appartements</option>
+                      <option value="hotels&restaurants"
+                        >Hôtels & restaurants</option
+                      >
+                    </select>
+                  </div>
+                  <div class="separation"></div>
+                  <input id="btn-validate" type="submit" value="Valider" />
+                </form>
               </div>
             </div>
           </aside>
