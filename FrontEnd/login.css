@@ -4,11 +4,19 @@ body {
   max-width: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 header {
   max-width: 1140px;
   margin: auto;
   margin-top: 50px;
-  margin-bottom: 150px;
+  margin-bottom: 100px;
+}
+
+section {
+  margin: 40px;
 }
 
 main {
@@ -75,6 +83,9 @@ input:focus {
   text-align: center;
   border: none;
   border-radius: 60px;
+}
+.connection-btn:active {
+  background-color: #0e2f28;
 }
 
 .p-forgot-password {

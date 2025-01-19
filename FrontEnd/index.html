@@ -26,9 +26,12 @@
       <h1>Sophie Bluel <span>ARCHITECTE D'INTERIEUR</span></h1>
       <nav>
         <ul>
-          <li>projets</li>
-          <li>contact</li>
-          <li><a class="login" href="login.html">login</a></li>
+          <li><a href="#portfolio">projets</a></li>
+          <li><a href="#contact">contact</a></li>
+          <div class="btns-login-logout">
+            <li><button class="login-btn">login</button></li>
+            <li><button class="logout-btn hidden">logout</button></li>  
+          </div>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>
@@ -44,6 +47,7 @@
             Je raconte votre histoire, je valorise vos idées. Je vous accompagne
             de la conception à la livraison finale du chantier.
           </p>
+          <br>
           <p>
             Chaque projet sera étudié en commun, de façon à mettre en valeur les
             volumes, les matières et les couleurs dans le respect de l’esprit
@@ -51,6 +55,7 @@
             sera assuré dans le souci du détail, le respect du planning et du
             budget.
           </p>
+          <br>
           <p>
             En cas de besoin, une équipe pluridisciplinaire peut-être constituée
             : architecte DPLG, décorateur(trice)
@@ -59,7 +64,7 @@
       </section>
       <section id="portfolio">
         <div class="h2-btn">
-          <h2>Mes Projets</h2>
+          <h2>Mes projets</h2>
           <!-- Contenu mode édition géré par JavaScript-->
           <button class="btn-edit hidden">
             <i class="fa-regular fa-pen-to-square"></i>
@@ -69,7 +74,6 @@
           <aside
             id="modal1"
             class="modal hidden-modal"
-            aria-hidden="true"
             role="dialog"
           >
             <div class="modal-wrapper">
@@ -90,7 +94,6 @@
           <aside
             id="modal2"
             class="modal hidden-modal"
-            aria-hidden="true"
             role="dialog"
           >
             <div class="modal-wrapper modal-wrapper2">
@@ -102,18 +105,24 @@
               </button>
               <div class="content-modal">
                 <h3 class="title-modal">Ajout photo</h3>
-                <form action="" method="post" class="form-upload-img">
+                <form enctype="multipart/form-data" method="post" class="form-upload-img">
                   <div class="content-upload-img">
-                    <i class="fa-solid fa-image"></i>
-                    <button class="btn-upload-img">+ Ajouter photo</button>
-                    <p>jpg, png : 4mo max</p>
+                    <div class="block-upload-img">
+                      <i class="fa-solid fa-image"></i>
+                      <label for="btn-upload-img" class="btn-upload-img">+ Ajouter photo</label>
+                      <input type="file" id="btn-upload-img" accept="image/*" hidden required></input>
+                      <p>jpg, png : 4mo max</p>
+                    </div>
+                    
+                  </div>
+                  <div class="content-preview-img">     
+                    <img id="preview-img" src="#" alt="Aperçu de l'image">
                   </div>
                   <div class="inputs-upload-img">
                     <label for="title">Titre </label>
-                    <input type="text" name="title" />
-                    <label for="category" id="category">Catégorie </label>
-                    <!--<input type="text" name="category" />-->
-                    <select name="category" id="category">
+                    <input type="text" name="title" id="title" required/>
+                    <label for="category" id="title-category">Catégorie </label>
+                    <select name="category" id="category" required>
                       <option value=""></option>
                       <option value="objets">Objets</option>
                       <option value="appartements">Appartements</option>
@@ -122,14 +131,14 @@
                       >
                     </select>
                   </div>
-                  <div class="separation"></div>
-                  <input id="btn-validate" type="submit" value="Valider" />
+                  <div class="separation" id="separation"></div>
+                  <input id="btn-validate" type="submit" value="Valider" disabled/>
                 </form>
               </div>
             </div>
           </aside>
         </div>
-        <div class="filters">
+        <div class="filters hidden">
           <!-- Contenu généré par JavaScript -->
         </div>
         <div class="gallery">

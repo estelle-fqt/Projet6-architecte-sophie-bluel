@@ -6,8 +6,15 @@ formConnection.addEventListener("submit", function (event) {
   event.preventDefault(); // Empêche le rechargement de la page (cptm /defaut du nav)
 
   // Récupération des valeurs du formulaire
-  const email = document.querySelector("#email").value;
-  const password = document.querySelector("#password").value;
+  const email = document.querySelector("#email").value.trim();
+  const password = document.querySelector("#password").value.trim();
+
+  // vérifie si champs vide
+  if (email === "" || password === "") {
+    errorMessage.textContent = "Veuillez remplir tous les champs";
+    errorMessage.style.display = "block";
+    return; // arrête l'exécution si un champ est vide
+  }
 
   // Création de l'objet à envoyer = charge utile
   const connection = { email, password };
@@ -29,20 +36,19 @@ formConnection.addEventListener("submit", function (event) {
       if (!response.ok) {
         if (response.status === 401) {
           throw new Error("Erreur dans l'identifiant ou le mot de passe.");
-        } else {
-          throw new Error("Erreur serveur. Veillez réessayer plus tard.");
         }
       }
       return response.json(); // Traite la réponse JSON si la requête réussit
     })
+    // traitement de la reponse réussi
     .then((data) => {
-      console.log("Connexion réussie :", data);
       const token = data.token;
       if (token) {
         sessionStorage.setItem("authToken", token); // Stocke le token pour les futures requêtes
         window.location.href = "index.html"; // Redirige vers la page d'accueil
       }
     })
+    // gestion des erreurs
     .catch((error) => {
       console.error("Erreur :", error.message); // Affiche une erreur en cas d'échec
       errorMessage.textContent = error.message;
