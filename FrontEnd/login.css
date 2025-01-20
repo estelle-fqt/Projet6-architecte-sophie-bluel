@@ -1,6 +1,6 @@
 body {
   background-color: #fffef8;
-  margin: none;
+  margin: 0;
   max-width: none;
 }
 
@@ -15,7 +15,7 @@ header {
   margin-bottom: 100px;
 }
 
-section {
+.identifier {
   margin: 40px;
 }
 
@@ -100,6 +100,6 @@ footer {
   background-color: white;
   position: absolute;
   max-width: none;
-  margin: none;
+  margin: 0;
   width: 100%;
 }

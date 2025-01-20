@@ -208,26 +208,14 @@ nav a:hover {
   font-weight: 700;
 }
 
-.hidden {
-  display: none;
-}
-.btns-login-logout {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.login-btn,
-.logout-btn {
+.login-btn {
   border: none;
   background: none;
   font-size: 16px;
+  all: unset;
   cursor: pointer;
-  all: unset; /* enlève le cptm /defaut du btn */
 }
-.login-btn:hover,
-.logout-btn:hover {
+.login-btn:hover {
   font-weight: 700;
 }
 

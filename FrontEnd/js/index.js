@@ -73,13 +73,29 @@ async function showCategories(works) {
   });
 }
 
+// Gestion du clic sur Login
+const loginBtn = document.querySelector(".login-btn");
+loginBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const token = sessionStorage.getItem("authToken");
+
+  if (!token) {
+    console.log("Redirection vers la page de connexion");
+    window.location.href = "login.html";
+  } else {
+    console.log("Déconnexion en cours...");
+    sessionStorage.removeItem("authToken");
+    window.location.href = "index.html";
+  }
+});
+
 // Afficher le mode édition si connecté
 window.addEventListener("load", () => {
   const modeEdits = document.querySelector(".mode-edit");
   const btnEdits = document.querySelector(".btn-edit");
   const filters = document.querySelector(".filters");
   const loginBtn = document.querySelector(".login-btn");
-  const logoutBtn = document.querySelector(".logout-btn");
+  //const logoutBtn = document.querySelector(".logout-btn");
   const token = sessionStorage.getItem("authToken"); // récupère le token
 
   if (token) {
@@ -94,24 +110,13 @@ window.addEventListener("load", () => {
     if (filters) {
       filters.classList.add("hidden");
     }
-    if (logoutBtn) {
-      logoutBtn.classList.remove("hidden");
-    }
     if (loginBtn) {
-      loginBtn.classList.add("hidden");
+      loginBtn.textContent = "logout";
     }
-
-    // Gestion du clic sur Logout
-    logoutBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      console.log("Déconnexion en cours...");
-
-      sessionStorage.removeItem("authToken"); // Supprime le token
-      window.location.href = "index.html"; // Redirection vers l'accueil
-    });
   } else {
     console.log("Utilisateur non connecté");
 
+    // masque éléments mode édition
     if (modeEdits) {
       modeEdits.classList.add("hidden");
     }
@@ -121,19 +126,6 @@ window.addEventListener("load", () => {
     if (filters) {
       filters.classList.remove("hidden");
     }
-    if (logoutBtn) {
-      logoutBtn.classList.add("hidden");
-    }
-    if (loginBtn) {
-      loginBtn.classList.remove("hidden");
-    }
-
-    // Gestion du clic sur Login
-    loginBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      console.log("Redirection vers la page de connexion");
-      window.location.href = "login.html"; // Redirection vers login.html
-    });
   }
 
   // Charger les projets
@@ -143,14 +135,14 @@ window.addEventListener("load", () => {
 //********* MODALE 1 ***********//
 // fct pour ouvrir la modale
 const openModal1 = function (e) {
-  e.preventDefault();
+  //e.preventDefault();
   const modal1 = document.getElementById("modal1");
   modal1.classList.remove("hidden-modal");
   modal1.setAttribute("aria-modal", "true");
 };
 
 // ouvre la modale en cliquant sur le bouton
-document.querySelectorAll(".js-modal").forEach((a) => {
+document.querySelectorAll(".btn-edit").forEach((a) => {
   a.addEventListener("click", openModal1); // appel la focntion openModal
 });
 
