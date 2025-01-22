@@ -22,6 +22,7 @@ function showProjects(works) {
   works.forEach((work) => {
     // crée un élément <figure>
     const figure = document.createElement("figure");
+    figure.id = work.id;
     // crée un élément <img>
     const img = document.createElement("img");
     img.src = work.imageUrl; // prend l'url de l'img du projet
@@ -46,6 +47,7 @@ async function showCategories(works) {
 
   // récupère élément HTML
   const filtersButtons = document.querySelector(".filters");
+  filtersButtons.innerHTML = ""; // vide les btn existants
 
   // crée le btn Tous
   const allButton = document.createElement("button");
@@ -151,8 +153,6 @@ const closeModal = function () {
   const modal1 = document.getElementById("modal1");
   modal1.classList.add("hidden-modal");
   modal1.removeAttribute("aria-modal");
-
-  location.reload();
 };
 
 // ferme la modale1 en cliquant sur le bouton
@@ -175,6 +175,7 @@ function showGalleryModal(works) {
 
   works.forEach((work) => {
     const figure = document.createElement("figure");
+    figure.id = work.id;
     figure.style.position = "relative";
 
     const img = document.createElement("img");
@@ -205,7 +206,6 @@ function showGalleryModal(works) {
 // fct supprimer une image
 function deleteImg(workId, figureElement) {
   const token = sessionStorage.getItem("authToken"); // récupère le token
-  // vévifier si l'utilisateur est connecté
   if (!token) {
     alert("Vous devez être connecté pour supprimer une image.");
     return;
@@ -219,7 +219,9 @@ function deleteImg(workId, figureElement) {
     },
   }).then((response) => {
     if (response.ok) {
-      figureElement.remove(); // suppr l'img de la page
+      const figures = document.querySelectorAll(`figure[id="${workId}"]`); // associe l'id de l'img ajoutée a figures
+      console.log(figures);
+      figures.forEach((figure) => figure.remove()); // supprime ds les 2 galleries
       console.log(`img avc id ${workId} supprimée`);
     } else {
       console.error("erreur lors de la suppression de l'img");
@@ -241,6 +243,9 @@ const openModal2 = function (e) {
   // ouvre modale 2
   modal2.classList.remove("hidden-modal");
   modal2.setAttribute("aria-modal", "true");
+
+  // charge les catéories
+  loadCategories();
 };
 
 // ouvrir la modale 2
@@ -267,7 +272,7 @@ modal2.addEventListener("click", function (e) {
 const returnModal1 = function () {
   const modal2 = document.getElementById("modal2");
   modal2.classList.add("hidden-modal");
-  const modal1 = document.getElementById("modal1");
+  const modal1 = document.getElementById("modal1"); /****/
   modal.classList.remove("hidden-modal");
   openModal1();
 };
@@ -276,11 +281,10 @@ document
   .querySelector(".btn-back-modal")
   .addEventListener("click", returnModal1);
 
-// fct ajouter une image
+// fct ajouter une image a modale 2
 const imgUpload = document.getElementById("btn-upload-img");
 const imgPreview = document.getElementById("preview-img");
 
-// ajoute img a modale
 imgUpload.addEventListener("change", function () {
   const file = this.files[0]; // accède au premier fichier de la liste
 
@@ -298,6 +302,28 @@ imgUpload.addEventListener("change", function () {
     invisibleUpload.style.display = "none"; // enlève le block upload d'arrière plan
   }
 });
+
+// fct recupère catégories de l'API
+function loadCategories() {
+  const selectCategory = document.getElementById("category");
+
+  // Vide les options existantes (sauf la première option)
+  selectCategory.innerHTML = '<option value="">Choisir une catégorie</option>';
+
+  fetch("http://localhost:5678/api/categories")
+    .then((response) => {
+      return response.json();
+    })
+    .then((categories) => {
+      // ajoute les catégorie
+      categories.forEach((category) => {
+        const option = document.createElement("option");
+        option.value = category.id; // utilise l'id pour la valeur
+        option.textContent = category.name; // utilise le nom pour l'affichage
+        selectCategory.appendChild(option);
+      });
+    });
+}
 
 // gestion btn Valider
 const form = document.querySelector(".form-upload-img");
@@ -340,7 +366,7 @@ uploadForm.addEventListener("submit", function (e) {
   const token = sessionStorage.getItem("authToken"); // récupère le token
   const imgFile = document.getElementById("btn-upload-img").files[0]; // récupère le 1er élément img uploader
   const title = document.getElementById("title").value; // récupère la valeur de l'input titre
-  const category = document.getElementById("category").value; // récupère la valeur de l'input catégorie
+  const category = document.getElementById("category").value; // récupère la valeur du select catégorie
 
   // vérif des champs
   if (!imgFile || !title || !category) {
@@ -348,26 +374,11 @@ uploadForm.addEventListener("submit", function (e) {
     return;
   }
 
-  console.log("===");
-  console.log(title);
-  console.log(category);
-  console.log("===");
-
-  // Convertit la catégorie en ID (si nécessaire)
-  function getCategoryID(categoryName) {
-    const categories = {
-      objets: 1,
-      appartements: 2,
-      "hotels&restaurants": 3,
-    };
-    return categories[categoryName] || 1; // Par défaut, "objets"
-  }
-
   // crée formData pr l'envoi du fichier
   const formData = new FormData();
   formData.append("image", imgFile);
   formData.append("title", title);
-  formData.append("category", getCategoryID(category)); // transforme en id
+  formData.append("category", category); // utilise l'ID
 
   // envoie requête POST à l'API
   fetch("http://localhost:5678/api/works", {
@@ -391,13 +402,12 @@ uploadForm.addEventListener("submit", function (e) {
       addImageToGallery(newWork);
       addImageToModal(newWork);
 
-      // ferme la modale après ajout
-      closeModal2();
-
       // réinitialise le formulaire
       uploadForm.reset();
+      submitBtn.disabled = true;
       imgPreview.style.display = "none";
       document.querySelector(".block-upload-img").style.display = "inline-flex";
+      returnModal1();
     });
 });
 
@@ -406,6 +416,7 @@ function addImageToGallery(work) {
   const gallery = document.querySelector(".gallery");
 
   const figure = document.createElement("figure");
+  figure.id = work.id;
   const img = document.createElement("img");
   img.src = work.imageUrl;
   img.alt = work.title;
@@ -424,6 +435,7 @@ function addImageToModal(work) {
   const galleryModal = document.querySelector(".gallery-modal");
 
   const figure = document.createElement("figure");
+  figure.id = work.id;
   figure.style.position = "relative";
 
   const img = document.createElement("img");
@@ -441,7 +453,7 @@ function addImageToModal(work) {
   deleteIcon.style.borderRadius = "2px";
   deleteIcon.style.cursor = "pointer";
 
-  // Supprimer img ajoutée
+  // icone supprimer img ajoutée
   deleteIcon.addEventListener("click", () => {
     deleteImg(work.id, figure);
   });
