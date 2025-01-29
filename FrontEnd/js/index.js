@@ -1,8 +1,8 @@
 // Afficher les projets dans la galerie
 // récupère éléments Works dans API avec fetch
 async function showWorks() {
-  const reponse = await fetch("http://localhost:5678/api/works");
-  const works = await reponse.json();
+  const response = await fetch("http://localhost:5678/api/works");
+  const works = await response.json();
   console.log(works);
 
   showProjects(works);
@@ -13,7 +13,7 @@ async function showWorks() {
 // récupère l'élément <gallery>
 const gallery = document.querySelector(".gallery");
 
-// Affiche les projets dans la galerie
+// Affiche les travaux dans la galerie
 function showProjects(works) {
   // vide la gallery
   gallery.innerHTML = "";
@@ -22,7 +22,7 @@ function showProjects(works) {
   works.forEach((work) => {
     // crée un élément <figure>
     const figure = document.createElement("figure");
-    figure.id = work.id;
+    figure.id = work.id; // lie la propriété id du work à l'élément figure
     // crée un élément <img>
     const img = document.createElement("img");
     img.src = work.imageUrl; // prend l'url de l'img du projet
@@ -60,17 +60,19 @@ async function showCategories(works) {
   });
 
   // Crée un bouton pour chaque catégorie
+  // parcours chaque élément dans le tableau categories et prend comme variable category
   categories.forEach((category) => {
     const categoryButton = document.createElement("button");
-    categoryButton.textContent = category.name;
+    categoryButton.textContent = category.name; // affiche le name de l'objet category du tableau
     filtersButtons.appendChild(categoryButton);
 
     // Ecoute événement pour afficher les projets de chaque catégorie avc fct filter
     categoryButton.addEventListener("click", () => {
+      // Filtre tab works pr garder que projets dt id de catégorie = category.id
       const filteredWorks = works.filter(
         (work) => work.categoryId === category.id
       );
-      showProjects(filteredWorks); // Affiche les projets filtrés
+      showProjects(filteredWorks); // Affiche les projets filtrés avec le tableau de projets filteredWorks
     });
   });
 }
@@ -97,7 +99,6 @@ window.addEventListener("load", () => {
   const btnEdits = document.querySelector(".btn-edit");
   const filters = document.querySelector(".filters");
   const loginBtn = document.querySelector(".login-btn");
-  //const logoutBtn = document.querySelector(".logout-btn");
   const token = sessionStorage.getItem("authToken"); // récupère le token
 
   if (token) {
@@ -137,30 +138,22 @@ window.addEventListener("load", () => {
 //********* MODALE 1 ***********//
 // fct pour ouvrir la modale
 const openModal1 = function (e) {
-  //e.preventDefault();
   const modal1 = document.getElementById("modal1");
   modal1.classList.remove("hidden-modal");
-  modal1.setAttribute("aria-modal", "true");
 };
-
 // ouvre la modale en cliquant sur le bouton
-document.querySelectorAll(".btn-edit").forEach((a) => {
-  a.addEventListener("click", openModal1); // appel la focntion openModal
-});
+document.querySelector(".btn-edit").addEventListener("click", openModal1); // appel la focntion openModal
 
 // fct pour fermer la modale
 const closeModal = function () {
   const modal1 = document.getElementById("modal1");
   modal1.classList.add("hidden-modal");
-  modal1.removeAttribute("aria-modal");
 };
-
 // ferme la modale1 en cliquant sur le bouton
 document.querySelector(".close-modal").addEventListener("click", closeModal);
 // ferme la modale en cliquant en dehors
 const modal = document.getElementById("modal1");
 const modalContent = document.querySelector(".modal-wrapper");
-
 modal.addEventListener("click", function (e) {
   if (!modalContent.contains(e.target)) {
     closeModal();
@@ -204,7 +197,7 @@ function showGalleryModal(works) {
 }
 
 // fct supprimer une image
-function deleteImg(workId, figureElement) {
+function deleteImg(workId) {
   const token = sessionStorage.getItem("authToken"); // récupère le token
   if (!token) {
     alert("Vous devez être connecté pour supprimer une image.");
@@ -220,7 +213,6 @@ function deleteImg(workId, figureElement) {
   }).then((response) => {
     if (response.ok) {
       const figures = document.querySelectorAll(`figure[id="${workId}"]`); // associe l'id de l'img ajoutée a figures
-      console.log(figures);
       figures.forEach((figure) => figure.remove()); // supprime ds les 2 galleries
       console.log(`img avc id ${workId} supprimée`);
     } else {
@@ -231,7 +223,7 @@ function deleteImg(workId, figureElement) {
 }
 
 //******** MODALE 2 ***********//
-// fct pour ouvrir la modale
+// fct pour ouvrir la modale 2
 const openModal2 = function (e) {
   e.preventDefault();
   const modal1 = document.getElementById("modal1");
@@ -242,12 +234,10 @@ const openModal2 = function (e) {
 
   // ouvre modale 2
   modal2.classList.remove("hidden-modal");
-  modal2.setAttribute("aria-modal", "true");
 
   // charge les catéories
   loadCategories();
 };
-
 // ouvrir la modale 2
 document.querySelector(".add-photo").addEventListener("click", openModal2);
 
@@ -255,7 +245,6 @@ document.querySelector(".add-photo").addEventListener("click", openModal2);
 const closeModal2 = function () {
   const modal2 = document.getElementById("modal2");
   modal2.classList.add("hidden-modal");
-  modal2.removeAttribute("aria-modal");
 };
 // ferme la modale 2 en cliquant sur le bouton
 document.querySelector(".close-modal2").addEventListener("click", closeModal2);
@@ -272,8 +261,6 @@ modal2.addEventListener("click", function (e) {
 const returnModal1 = function () {
   const modal2 = document.getElementById("modal2");
   modal2.classList.add("hidden-modal");
-  const modal1 = document.getElementById("modal1"); /****/
-  modal.classList.remove("hidden-modal");
   openModal1();
 };
 // retour à modale 1
@@ -281,10 +268,11 @@ document
   .querySelector(".btn-back-modal")
   .addEventListener("click", returnModal1);
 
-// fct ajouter une image a modale 2
+// fct ajouter une image à modale 2
 const imgUpload = document.getElementById("btn-upload-img");
 const imgPreview = document.getElementById("preview-img");
 
+// écoute event sur input type=file
 imgUpload.addEventListener("change", function () {
   const file = this.files[0]; // accède au premier fichier de la liste
 
@@ -293,7 +281,7 @@ imgUpload.addEventListener("change", function () {
 
     // fct affiche preview de l'img
     reader.addEventListener("load", function () {
-      imgPreview.setAttribute("src", this.result);
+      imgPreview.setAttribute("src", this.result); // this.result=url img //attribut l'url img à src
       imgPreview.style.display = "block";
     });
     reader.readAsDataURL(file); // transforme l'img en URL utilisable dans balise <img>
@@ -325,11 +313,19 @@ function loadCategories() {
     });
 }
 
-// gestion btn Valider
+// gestion remplissage formulaire
 const form = document.querySelector(".form-upload-img");
 const inputs = form.querySelectorAll("input[required]");
 const selects = form.querySelectorAll("select[required]");
 const submitBtn = document.getElementById("btn-validate");
+// evenement remplissage des inputs
+inputs.forEach((input) => {
+  input.addEventListener("input", checkForm);
+});
+// evenement remplissage des select
+selects.forEach((select) => {
+  select.addEventListener("change", checkForm);
+});
 // fct vérif si ts les champs sont remplis
 function checkForm() {
   let allFields = true;
@@ -348,16 +344,8 @@ function checkForm() {
   // active-désactive le btn
   submitBtn.disabled = !allFields;
 }
-// evenement remplissage des inputs
-inputs.forEach((input) => {
-  input.addEventListener("input", checkForm);
-});
-// evenement remplissage des select
-selects.forEach((select) => {
-  select.addEventListener("change", checkForm);
-});
 
-//*********** ajoute img à API et page web ***************//
+// gestion btn submit & envoie requête
 const uploadForm = document.querySelector(".form-upload-img");
 
 uploadForm.addEventListener("submit", function (e) {
@@ -368,13 +356,13 @@ uploadForm.addEventListener("submit", function (e) {
   const title = document.getElementById("title").value; // récupère la valeur de l'input titre
   const category = document.getElementById("category").value; // récupère la valeur du select catégorie
 
-  // vérif des champs
+  // vérif des champs (2eme sécurité)
   if (!imgFile || !title || !category) {
     alert("Veuillez remplir tous les champs.");
     return;
   }
 
-  // crée formData pr l'envoi du fichier
+  // crée formData pr l'envoi du formulaire
   const formData = new FormData();
   formData.append("image", imgFile);
   formData.append("title", title);
@@ -407,7 +395,7 @@ uploadForm.addEventListener("submit", function (e) {
       submitBtn.disabled = true;
       imgPreview.style.display = "none";
       document.querySelector(".block-upload-img").style.display = "inline-flex";
-      returnModal1();
+      //returnModal1();
     });
 });
 

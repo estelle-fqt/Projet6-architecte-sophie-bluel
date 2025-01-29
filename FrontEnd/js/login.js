@@ -26,15 +26,16 @@ formConnection.addEventListener("submit", function (event) {
   fetch("http://localhost:5678/api/users/login", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json", // Indique que le corps est en JSON
+      "Content-Type": "application/json", // Indique le format de la charge utile en JSON
     },
     body: chargeUtile,
   })
     // Gestion de la réponse
     .then((response) => {
-      console.log("Statut de la réponse:", response.status);
       if (!response.ok) {
+        //info authentification nn valide
         if (response.status === 401) {
+          // lève une exception et crée obj d'erreur, transmise à catch
           throw new Error("Erreur dans l'identifiant ou le mot de passe.");
         }
       }
@@ -42,7 +43,7 @@ formConnection.addEventListener("submit", function (event) {
     })
     // traitement de la reponse réussi
     .then((data) => {
-      const token = data.token;
+      const token = data.token; // extrait prop token de l'obj data
       if (token) {
         sessionStorage.setItem("authToken", token); // Stocke le token pour les futures requêtes
         window.location.href = "index.html"; // Redirige vers la page d'accueil
