@@ -1,0 +1,8 @@
+title: "Architecte Sophie Bluel"
+description: "Portfolio de l'architecte d'intérieur Spohie Bluel"
+baseurl: ""
+url: "https://estelle-fqt.github.io/Projet6-architecte-sophie-bluel"
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
